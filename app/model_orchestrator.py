@@ -46,12 +46,21 @@ class ModelOrchestrator:
             water_saved = 0.0
 
         elif mode == "SLM":
-            response, tokens, cost = self._process_with_slm(query)
-            model_used = "TinyLlama"
-            routing_reason = "User forced SLM"
-            routing_mode = "User Override"
-            carbon_saved = self._calculate_carbon_saved(tokens["output"])
-            water_saved = self._calculate_water_saved(tokens["output"])
+            # Try to initialize SLM first; if it fails, fall back to LLM
+            if not self.slm.initialize():
+                response, tokens, cost = self._process_with_llm(query)
+                model_used = "Mixtral"
+                routing_reason = "User forced SLM, but TinyLlama failed to initialize — fell back to LLM"
+                routing_mode = "User Override (fallback)"
+                carbon_saved = 0.0
+                water_saved = 0.0
+            else:
+                response, tokens, cost = self._process_with_slm(query)
+                model_used = "TinyLlama"
+                routing_reason = "User forced SLM"
+                routing_mode = "User Override"
+                carbon_saved = self._calculate_carbon_saved(tokens["output"])
+                water_saved = self._calculate_water_saved(tokens["output"])
 
         else:  # AUTO
             if complexity_score >= self.complexity_threshold:
@@ -60,10 +69,18 @@ class ModelOrchestrator:
                 carbon_saved = 0.0
                 water_saved = 0.0
             else:
-                response, tokens, cost = self._process_with_slm(query)
-                model_used = "TinyLlama"
-                carbon_saved = self._calculate_carbon_saved(tokens["output"])
-                water_saved = self._calculate_water_saved(tokens["output"])
+                # Attempt to initialize SLM; if initialization fails, automatically use LLM
+                if not self.slm.initialize():
+                    response, tokens, cost = self._process_with_llm(query)
+                    model_used = "Mixtral"
+                    carbon_saved = 0.0
+                    water_saved = 0.0
+                    routing_reason = "SLM initialization failed — automatically fell back to LLM"
+                else:
+                    response, tokens, cost = self._process_with_slm(query)
+                    model_used = "TinyLlama"
+                    carbon_saved = self._calculate_carbon_saved(tokens["output"])
+                    water_saved = self._calculate_water_saved(tokens["output"])
 
             routing_reason = ComplexityScorer.get_routing_reason(complexity_score)
             routing_mode = "Automatic"
