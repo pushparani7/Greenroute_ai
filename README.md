@@ -96,19 +96,22 @@ Terminal 2 - Frontend:
 Frontend: http://localhost:8501
 
 ## 📁 Project Structure
-`
+
+```text
 GreenRoute-Ai/
+│
 ├── app/
 │   ├── __init__.py
-│   ├── main.py           # FastAPI app & /route endpoint
-│   ├── router.py         # Query classification & emissions calculation
-│   └── impact.py         # Legacy impact functions
-├── dashboard.py          # Streamlit dashboard
-├── requirements.txt      # Dependencies
-├── start.ps1            # Start script
+│   ├── main.py         # FastAPI app & route endpoint
+│   ├── router.py       # Query classification & emissions calculation
+│   └── impact.py       # Legacy impact functions
+│
+├── dashboard.py        # Streamlit dashboard
+├── requirements.txt    # Dependencies
+├── start.ps1           # Start script
 ├── .gitignore
 └── README.md
-`
+```
 
 ## 🔌 API Documentation
 
