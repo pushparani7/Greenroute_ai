@@ -56,8 +56,6 @@ France?"
 - Python 3.13+
 - Git
 
-### Installation
-`ash
 # Clone the repo
 git clone https://github.com/pushparani7/GreenRoute-Ai.git
 cd GreenRoute_ai
@@ -75,21 +73,21 @@ pip install -r requirements.txt
 ### Run the Application
 
 **Option 1: Start both services together**
-`ash
+`
 .\start.ps1
 `
 
 **Option 2: Start separately**
 
 Terminal 1 - Backend:
-`ash
+`
 .\.venv\Scripts\uvicorn app.main:app --reload
 `
 Backend: http://localhost:8000
 API Docs: http://localhost:8000/docs
 
 Terminal 2 - Frontend:
-`ash
+`
 .\.venv\Scripts\streamlit run dashboard.py
 `
 Frontend: http://localhost:8501
