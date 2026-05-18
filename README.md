@@ -14,29 +14,32 @@ Carbon-aware model router using **FastAPI + Streamlit**. Intelligently routes si
 - ✅ **Zero API Keys** - Uses local HuggingFace embeddings
 
 ## 📊 How It Works
-`
-┌─────────────────────────────────────────────────────────────────┐
-│                     GreenRoute AI Workflow                      |
-└─────────────────────────────────────────────────────────────────┘
 
-  Step 1              Step 2              Step 3              Step 4
-  INPUT          CLASSIFICATION         ROUTING           CALCULATION
-    │                  │                   │                   │
-    ▼                  ▼                   ▼                   ▼
-    
-"What is the   ─→  Simple or  ─→  Select Model  ─→  Calculate Impact
-capital of        Complex?      (SLM vs LLM)      (CO₂ & Water)
+```text
+┌───────────────────────────────────────────────────────────────┐
+│                    GreenRoute AI Workflow                    │
+└───────────────────────────────────────────────────────────────┘
+
+ Step 1              Step 2               Step 3              Step 4
+ INPUT                CLASSIFICATION      ROUTING            CALCULATION
+   │                        │                  │                  │
+   ▼                        ▼                  ▼                  ▼
+
+"What is the      →   Simple or        →   Select Model    →   Calculate Impact
+capital of            Complex?             (SLM vs LLM)         (CO₂ & Water)
 France?"
-    │                  │                   │                   │
-    │              KEYWORD               RULE:                │
-    │              MATCHING          Simple → SLM         0.0084g CO₂
-    │                                Complex → LLM        0.14ml Water
-    │
-    └─ Input: 8 tokens
-    └─ Expected Response: 50 tokens
-    └─ Total: 58 tokens
-`
 
+                         │                    │                    │
+                    KEYWORD MATCHING         RULE:               Results:
+                                             Simple → SLM        0.0084g CO₂
+                                             Complex → LLM       0.14ml Water
+
+
+Input Details:
+├── Input Tokens: 8
+├── Expected Response Tokens: 50
+└── Total Tokens: 58
+```
 ### Routing Logic
 
 | Query Type | Example | Route | Model | Emissions |
